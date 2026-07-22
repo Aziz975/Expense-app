@@ -195,6 +195,12 @@ See [API_DOCUMENTATION.md](./API_DOCUMENTATION.md) for full details.
 - CORS configuration
 - Environment variables for secrets
 
+## Deploy on Render
+
+See [DEPLOY.md](./DEPLOY.md) for a full walkthrough.
+
+Quick path: push this repo → Render Dashboard → **New → Blueprint** → select repo → fill MySQL `DB_*` env vars → Apply.
+
 ## License
 
 MIT

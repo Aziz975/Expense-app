@@ -1,0 +1,66 @@
+# Render Blueprint — Expense Tracker
+# Dashboard: New → Blueprint → connect this repo
+# Docs: https://render.com/docs/infrastructure-as-code
+#
+# MySQL is NOT included here (Render MySQL needs a paid disk).
+# Use a free external MySQL host and set DB_* env vars on the API service.
+# See DEPLOY.md for step-by-step instructions.
+
+services:
+  # ---------- Backend API ----------
+  - type: web
+    name: expense-tracker-api
+    runtime: node
+    plan: free
+    region: oregon
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      # Update after frontend deploys (or set to your static site URL)
+      - key: FRONTEND_URL
+        value: https://expense-tracker-web.onrender.com
+      # Fill these in the Render dashboard with your MySQL credentials
+      - key: DB_HOST
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        sync: false
+      - key: DB_PORT
+        value: "3306"
+      - key: DB_SSL
+        value: "true"
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: OPENAI_VISION_MODEL
+        value: gpt-4o-mini
+
+  # ---------- Frontend (Vite React) ----------
+  - type: web
+    name: expense-tracker-web
+    runtime: static
+    plan: free
+    region: oregon
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      # Must match your API service public URL
+      - key: VITE_API_URL
+        value: https://expense-tracker-api.onrender.com/api
