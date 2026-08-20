@@ -4,7 +4,7 @@ const mysql = require('mysql2/promise');
 const poolConfig = {
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
+  password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME || 'expense_tracker',
   port: Number(process.env.DB_PORT) || 3306,
   waitForConnections: true,
