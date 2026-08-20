@@ -14,4 +14,4 @@ export const CATEGORY_COLORS = {
   Other: '#6b7280',
 };
 
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+export const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://expense-app-4-3306.onrender.com/api';
